@@ -1,0 +1,62 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render_3D.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/30 12:53:19 by fde-alme          #+#    #+#             */
+/*   Updated: 2026/05/30 13:20:44 by fde-alme         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "defs.h"
+#include "utils.h"
+#include "image.h"
+#include "calculation.h"
+#include "ray.h"
+
+/* Draw a single vertical wall slice (one screen column). */
+static void	draw_wall_column(t_game *game, const float angle, int column, const int color)
+{
+	const t_point	ray_hit_point = trace_ray(game, angle);
+	double			distance;
+	double			wall_height;
+	double			wall_start;
+	double			wall_bottom;
+
+	distance = fixed_distance(game->player.position, ray_hit_point, angle);
+
+	/* Project wall height based on distance. */
+	wall_height = (BLOCK_SIZE / distance) * ((float) WIDTH / 2);
+
+	/* Center the wall slice vertically on screen. */
+	wall_start = (HEIGHT - wall_height) / 2;
+	wall_bottom = wall_start + wall_height;
+
+	while (wall_start < wall_bottom)
+	{
+		my_mlx_pixel_put(game->img, column, wall_start, color);
+		wall_start++;
+	}
+}
+
+/* Render the 3D field of view using raycasting. */
+void	draw_3D_FOV(t_game *game, int color)
+{
+	// Angle difference between each screen column ray.
+	const float	angle_step = radians(60) / WIDTH;
+	float	ray_angle;
+	int		column;
+
+	// Start from left edge of FOV (player angle - 30 degrees).
+	ray_angle = game->player.angle - radians(30);
+	column = 0;
+	while (column < WIDTH)
+	{
+		draw_wall_column(game, ray_angle, column, color);
+		ray_angle += angle_step;
+		column++;
+	}
+}
+
