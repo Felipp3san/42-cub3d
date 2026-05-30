@@ -1,5 +1,6 @@
 .vscode
 .cache
-build
-mlx
+build/
+mlx/
+libft/
 cub3d

@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 20:16:22 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/05/30 13:09:44 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/05/30 13:47:47 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ float	distance(float x, float y){
 }
 
 /* Correction for distance calculation to avoid fish-eye effect. */
-float	fixed_distance(t_point start, t_point end, float angle)
+float	fixed_distance(t_point start, float angle, t_point end)
 {
 	const float	delta_x = end.x - start.x;
 	const float	delta_y = end.y - start.y;

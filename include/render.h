@@ -24,6 +24,6 @@ void	draw_map(t_game *game, int block_size, int color);
 void	draw_2D_FOV(t_game *game, int color);
 
 // 3D
-void	draw_3D_FOV(t_game *game, int color);
+void	draw_3D_FOV(t_game *game);
 
 #endif

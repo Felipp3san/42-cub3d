@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 21:50:12 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/05/30 12:45:53 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/05/30 14:03:16 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@
 # define BLACK 0x00000000
 # define RED 0x00FF0000
 # define BLUE 0x000000FF
+# define YELLOW 0x00FFFF00
+# define CHARCOAL 0x001C1C1C
+# define MIDNIGHT_NAVY 0x00151922
+# define OFF_WHITE 0x00F5F7FA
+# define ASH_WOOD 0x00E3DCD2
+# define BLUE_SKY 0x0090CAF9
+# define CLEAR_GRAY 0x007D7F7C
 
 # define BLOCK_SIZE 64
 # define PLAYER_SIZE 20
@@ -46,6 +53,14 @@ typedef enum e_direction
 	DOWN,
 	RIGHT
 }	t_direction;
+
+typedef enum e_orientation
+{
+	NORTH,
+	SOUTH,
+	EAST,
+	WEAST
+}	t_orientation;
 
 typedef struct s_img
 {
@@ -70,6 +85,7 @@ typedef struct s_point
 {
 	float	x;
 	float	y;
+
 }	t_point;
 
 typedef struct s_player

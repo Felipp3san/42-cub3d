@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:13:38 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/05/30 13:11:45 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/05/30 13:55:55 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	loop(void *param)
 	//draw_2D_FOV(game, RED);
 
 	// 3D vision
-	draw_3D_FOV(game, BLUE);
+	draw_3D_FOV(game);
 	//draw_minimap(game);
 
 	mlx_put_image_to_window(game->mlx, game->win, game->img->img, 0, 0);
