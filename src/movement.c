@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 17:26:08 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/05/30 13:18:49 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/05/31 15:37:11 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void	rotate_player(t_game *game)
 		player->angle -= ANGLE_SPEED;
 	if (game->keys.right)
 		player->angle += ANGLE_SPEED;
-	if (player->angle > radians(360))
+	if (player->angle > degrees_to_radians(360))
 		player->angle = 0;
 	if (player->angle < 0)
-		player->angle = radians(360);
+		player->angle = degrees_to_radians(360);
 }

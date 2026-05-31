@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:13:38 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/05/30 13:55:55 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/05/31 17:49:54 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ int	loop(void *param)
 	clear_img(game);
 
 	// 2D vision
-	//draw_square(game, game->player.position.x, game->player.position.y, PLAYER_SIZE, RED);
-	//draw_map(game, BLOCK_SIZE, BLUE);
+	draw_map(game, BLOCK_SIZE);
+	draw_player(game, RED);
+	draw_rays(game);
 	//draw_2D_FOV(game, RED);
 
 	// 3D vision
-	draw_3D_FOV(game);
+	//draw_3D_FOV(game);
 	//draw_minimap(game);
 
 	mlx_put_image_to_window(game->mlx, game->win, game->img->img, 0, 0);

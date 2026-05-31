@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 21:50:12 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/05/30 14:03:16 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/05/31 22:23:02 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@
 # define ANGLE_SPEED 0.05
 
 # define BLACK 0x00000000
+# define WHITE 0x00FFFFFF
 # define RED 0x00FF0000
 # define BLUE 0x000000FF
+# define GREEN 0x0000FF00
 # define YELLOW 0x00FFFF00
 # define CHARCOAL 0x001C1C1C
 # define MIDNIGHT_NAVY 0x00151922
@@ -83,9 +85,8 @@ typedef struct s_keys
 
 typedef struct s_point
 {
-	float	x;
-	float	y;
-
+	int	x;
+	int	y;
 }	t_point;
 
 typedef struct s_player
@@ -94,14 +95,21 @@ typedef struct s_player
 	float	angle;
 }	t_player;
 
+typedef struct s_map
+{
+	char	**grid;
+	int		height;
+	int		width;
+}	t_map;
+
 typedef struct s_game
 {
 	void		*mlx;
 	void		*win;
-	char		**map;
 	bool		re_render;
 	t_img		*img;
 	t_player	player;
+	t_map		map;
 	t_keys		keys;
 }	t_game;
 

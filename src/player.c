@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 18:32:22 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/05/30 13:09:09 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/05/31 22:20:57 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static t_point	get_player_position(t_game *game)
 	int	row;
 
 	row = 0;
-	while (game->map && game->map[row] != NULL)
+	while (game->map.grid && game->map.grid[row] != NULL)
 	{
 		column = 0;
-		while (game->map[row][column] != '\0')
+		while (game->map.grid[row][column] != '\0')
 		{
 			// TODO: Adjust player position to capture angle (N, E, W, S)
-			if (game->map[row][column] == 'P')
+			if (game->map.grid[row][column] == 'P')
 				return ((t_point){column, row});
 			column++;
 		}
@@ -53,6 +53,7 @@ t_player	create_player(t_game *game)
 	}
 	player.position.x = start_position.x * BLOCK_SIZE;
 	player.position.y = start_position.y * BLOCK_SIZE;
-	player.angle = radians(180);
+	// 180 degress is left. 0/360 is right. 90 is up. 270 is down.
+	player.angle = degrees_to_radians(110);
 	return (player);
 }

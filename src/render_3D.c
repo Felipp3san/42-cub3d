@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/30 12:53:19 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/05/30 14:08:08 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/05/31 15:37:17 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ static void	draw_column(t_game *game, const float angle, int column)
 void	draw_3D_FOV(t_game *game)
 {
 	// Angle difference between each screen column ray.
-	const float	angle_step = radians(60) / WIDTH;
+	const float	angle_step = degrees_to_radians(60) / WIDTH;
 	float		ray_angle;
 	int			column;
 
 	// Start from left edge of FOV (player angle - 30 degrees).
-	ray_angle = game->player.angle - radians(30);
+	ray_angle = game->player.angle - degrees_to_radians(30);
 	column = 0;
 	while (column < WIDTH)
 	{

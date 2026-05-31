@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 17:56:32 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/05/30 13:08:45 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/05/31 22:23:16 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ int	init_game(t_game *game)
 	}
 	game->re_render = true;
 	game->map = get_map();
+	// TODO: Free resources
+	if (game->map.grid == NULL)
+		return (ERROR);
 	game->player = create_player(game);
 	game->keys = (t_keys){false, false, false, false, false, false};
 	return (OK);
@@ -55,8 +58,7 @@ void	destroy_game(t_game *game)
 		free(game->img);
 		game->img = NULL;
 	}
-	if (game->map)
-		destroy_map(game->map);
+	destroy_map(game->map.grid);
 	mlx_destroy_window(game->mlx, game->win);
 	mlx_destroy_display(game->mlx);
 	free(game->mlx);
