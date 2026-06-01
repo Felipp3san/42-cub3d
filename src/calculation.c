@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 20:16:22 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/05/30 13:47:47 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/06/01 00:17:03 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "defs.h"
 
 /* Calculates the distance between two points. */
-float	distance(float x, float y){
+static float	distance(float x, float y){
 	return sqrt(x * x + y * y);
 }
 

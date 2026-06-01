@@ -74,22 +74,34 @@ static void	draw_ray(t_game *game, t_point origin, t_point destination, const in
 	}
 }
 
+float	distance(t_point a, t_point b)
+{
+	// Pythagorean Theorem
+	return (sqrt((b.x - a.x) * (b.x - a.x) + (b.y - b.y) * (b.y - a.y)));
+};
+
 void	draw_rays(t_game *game)
 {
-	float	ray_angle = game->player.angle;
-	t_point h_hit;
+	const int	MAX_DOF = 24;
+	float	ray_angle;
 	float	x_offset;
 	float	y_offset;
 	int		depth_of_field;
 	int		map_x;
 	int		map_y;
 	int		rays;
+	bool	side = false;
 
+	ray_angle = game->player.angle - degrees_to_radians(30);
 	rays = 0;
-	while (rays < 1)
+	while (rays < 20)
 	{
+		// === Horizontal Rays ===
 		// For each step in Y, how much should i move X?
-		float x_step_per_y = -1.0f / tan(ray_angle);
+		t_point	h_hit;
+		float	distH = 100000000;
+		float	x_step_per_y = -1.0f / tan(ray_angle);
+		depth_of_field = 0;
 		if (ray_angle > degrees_to_radians(180)) // Looking down
 		{
 			// Get the next grid starting position from the player position.
@@ -108,22 +120,24 @@ void	draw_rays(t_game *game)
 		}
 		if (ray_angle == 0 || ray_angle == degrees_to_radians(180)) // Looking straight left or right
 		{
-			// The ray will never intercept any horizontal grid line.
-			h_hit.x = 0;
-			h_hit.y = 0;
-			depth_of_field = 8; // Set to max to skip loop.
+			// The ray will never intercept any horizontal grid lines.
+			h_hit.x = game->player.position.x;
+			h_hit.y = game->player.position.y;
+			depth_of_field = MAX_DOF; // Set to max to skip loop.
 		}
 
-		depth_of_field = 0;
-		while (depth_of_field < 8)
+		while (depth_of_field < MAX_DOF)
 		{
-			map_x = (int)(h_hit.x / BLOCK_SIZE);
-			map_y = (int)((h_hit.y - 1) / BLOCK_SIZE);
+			map_x = (int)((h_hit.x - 1) / BLOCK_SIZE);
+			map_y = (int)(h_hit.y / BLOCK_SIZE);
 			// If hit a wall, stop.
 			if (map_y >= 0 && map_y < game->map.height &&
 				map_x >= 0 && map_x < game->map.width &&
 				game->map.grid[map_y][map_x] == '1')
-				depth_of_field = 8;
+			{
+				distH = distance(game->player.position, h_hit);
+				depth_of_field = MAX_DOF;
+			}
 			// If not, add offset to intersect position.
 			else
 			{
@@ -132,9 +146,64 @@ void	draw_rays(t_game *game)
 			}
 			depth_of_field++;
 		}
+
+		// === Vertical Rays ===
+		t_point	v_hit;
+		float	distV = 100000000;
+		float	y_step_per_x = -tan(ray_angle);
+		if (ray_angle > degrees_to_radians(90) && ray_angle < degrees_to_radians(270)) // Looking left
+		{
+			// Get the next grid starting position from the player position.
+			// - If the player is at position 80, the next grid starts at position 128.
+			v_hit.x = (((int) game->player.position.x >> 6) << 6) - 0.0001;
+			v_hit.y = (game->player.position.x - v_hit.x) * y_step_per_x + game->player.position.y;
+			x_offset = -64;
+			y_offset = -x_offset * y_step_per_x;
+			side = true;
+		}
+		if (ray_angle < degrees_to_radians(90) || ray_angle > degrees_to_radians(270)) // Looking right
+		{
+			v_hit.x = (((int)game->player.position.x >> 6) << 6) + 64;
+			v_hit.y = (game->player.position.x - v_hit.x) * y_step_per_x + game->player.position.y;
+			x_offset = 64;
+			y_offset = -x_offset * y_step_per_x;
+		}
+		if (ray_angle == 90 || ray_angle == degrees_to_radians(270)) // Looking straight up or down
+		{
+			// The ray will never intercept any horizontal grid lines.
+			v_hit.x = game->player.position.x;
+			v_hit.y = game->player.position.y;
+			depth_of_field = MAX_DOF; // Set to max to skip loop.
+		}
+
+		depth_of_field = 0;
+		while (depth_of_field < MAX_DOF)
+		{
+			map_x = (int)(v_hit.x / BLOCK_SIZE);
+			map_y = (int)((v_hit.y - 1) / BLOCK_SIZE);
+			// If hit a wall, stop.
+			if (map_y >= 0 && map_y < game->map.height &&
+				map_x >= 0 && map_x < game->map.width &&
+				game->map.grid[map_y][map_x] == '1')
+			{
+				distV = distance(game->player.position, v_hit);
+				depth_of_field = MAX_DOF;
+			}
+			// If not, add offset to intersect position.
+			else
+			{
+				v_hit.x += x_offset;
+				v_hit.y += y_offset;
+			}
+			depth_of_field++;
+		}
+		if (distV < distH)
+			draw_ray(game, game->player.position, v_hit, BLUE);
+		else
+			draw_ray(game, game->player.position, h_hit, BLUE);
+		ray_angle += degrees_to_radians(60) / 20;
 		rays++;
 	}
-	draw_ray(game, game->player.position, h_hit, BLUE);
 }
 
 void	draw_player(t_game *game, int color)
