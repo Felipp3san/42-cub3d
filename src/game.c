@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 17:56:32 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/05/31 22:23:16 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/06/04 20:42:48 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	destroy_game(t_game *game)
 		free(game->img);
 		game->img = NULL;
 	}
-	destroy_map(game->map.grid);
+	destroy_map(&game->map);
 	mlx_destroy_window(game->mlx, game->win);
 	mlx_destroy_display(game->mlx);
 	free(game->mlx);

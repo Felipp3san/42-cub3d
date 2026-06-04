@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 18:32:22 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/05/31 22:20:57 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/06/01 19:33:46 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ t_player	create_player(t_game *game)
 	}
 	player.position.x = start_position.x * BLOCK_SIZE;
 	player.position.y = start_position.y * BLOCK_SIZE;
-	// 180 degress is left. 0/360 is right. 90 is up. 270 is down.
-	player.angle = degrees_to_radians(110);
+	player.angle = degrees_to_radians(90);
 	return (player);
 }

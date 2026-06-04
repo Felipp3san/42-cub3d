@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 21:50:12 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/05/31 22:23:02 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/06/04 19:58:15 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef enum e_orientation
 	NORTH,
 	SOUTH,
 	EAST,
-	WEAST
+	WEST
 }	t_orientation;
 
 typedef struct s_img
@@ -85,8 +85,8 @@ typedef struct s_keys
 
 typedef struct s_point
 {
-	int	x;
-	int	y;
+	float	x;
+	float	y;
 }	t_point;
 
 typedef struct s_player
@@ -101,6 +101,15 @@ typedef struct s_map
 	int		height;
 	int		width;
 }	t_map;
+
+typedef struct s_ray
+{
+	t_point	hit;
+	float	x_offset;
+	float	y_offset;
+	float	dist;
+	float	step_ratio;
+}	t_ray;
 
 typedef struct s_game
 {
