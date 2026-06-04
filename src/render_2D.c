@@ -12,7 +12,6 @@
 
 #include <math.h>
 #include <stdint.h>
-#include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
 
@@ -20,7 +19,6 @@
 #include "image.h"
 #include "utils.h"
 #include "ray.h"
-
 
 /* Draw a hollow square centered at (centerX, centerY). */
 void	draw_square(t_game *game, t_point position, float size, int color, bool filled)
@@ -70,6 +68,24 @@ static void	draw_ray(t_game *game, t_point origin, t_point destination, int colo
 	}
 }
 
+static float	normalize_angle(float angle)
+{
+	float	two_pi;
+
+	two_pi = degrees_to_radians(360);
+	if (angle < 0)
+	{
+		while (angle < 0)
+			angle += two_pi;
+	}
+	else
+	{
+		while (angle > two_pi)
+			angle -= two_pi;
+	}
+	return (angle);
+}
+
 void	draw_rays(t_game *game)
 {
 	float	ray_angle;
@@ -77,27 +93,17 @@ void	draw_rays(t_game *game)
 	t_ray	h_ray;
 	t_ray	v_ray;
 
-	ray_angle = game->player.angle - degrees_to_radians(30);
-	//ray_angle = game->player.angle;
-	if (ray_angle < 0)
-		ray_angle += degrees_to_radians(360);
-	else if (ray_angle > degrees_to_radians(360))
-		ray_angle -= degrees_to_radians(360);
+	ray_angle = normalize_angle(game->player.angle - degrees_to_radians(30));
 	rays = 0;
 	while (rays < 60)
 	{
 		h_ray = calculate_ray_distance_h(game, ray_angle);
 		v_ray = calculate_ray_distance_v(game, ray_angle);
-
 		if (v_ray.dist < h_ray.dist)
 			draw_ray(game, game->player.position, v_ray.hit, BLUE);
 		else
 			draw_ray(game, game->player.position, h_ray.hit, BLUE);
-		ray_angle += degrees_to_radians(1);
-		if (ray_angle < 0)
-			ray_angle += degrees_to_radians(360);
-		else if (ray_angle > degrees_to_radians(360))
-			ray_angle -= degrees_to_radians(360);
+		ray_angle = normalize_angle(ray_angle + degrees_to_radians(1));
 		rays++;
 	}
 }
