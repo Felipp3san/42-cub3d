@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 20:21:35 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/05/31 22:24:47 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/06/04 22:29:10 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,22 @@ double	degrees_to_radians(double degrees)
 float	radians_to_degrees(float radians)
 {
 	return (radians * 180.0) / M_PI;
+}
+
+float	normalize_angle(float angle)
+{
+	float	two_pi;
+
+	two_pi = degrees_to_radians(360);
+	if (angle < 0)
+	{
+		while (angle < 0)
+			angle += two_pi;
+	}
+	else
+	{
+		while (angle > two_pi)
+			angle -= two_pi;
+	}
+	return (angle);
 }

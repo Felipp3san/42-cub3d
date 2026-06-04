@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:13:38 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/06/04 20:12:21 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/06/04 22:57:37 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # include <X11/keysym.h>
 # include <libft.h>
 # include <mlx.h>
+# include <stdio.h>
 
 # include "defs.h"
 # include "game.h"
@@ -21,6 +22,7 @@
 # include "render.h"
 # include "image.h"
 
+static size_t frame_counter = 0;
 int	loop(void *param)
 {
 	t_game	*game;
@@ -35,18 +37,19 @@ int	loop(void *param)
 	clear_img(game);
 
 	// 2D vision
-	draw_map(game, BLOCK_SIZE);
-	draw_player(game, RED);
-	draw_rays(game);
+	//draw_map(game, BLOCK_SIZE);
+	//draw_player(game, RED);
 	//draw_2D_FOV(game, RED);
 
 	// 3D vision
-	//draw_3D_FOV(game);
+	draw_3D_FOV(game);
 	//draw_minimap(game);
 
 	mlx_put_image_to_window(game->mlx, game->win, game->img->img, 0, 0);
 
-	usleep(100);
+	frame_counter++;
+	printf("Frame: %lu\n", frame_counter);
+	usleep(1);
 	return (0);
 }
 

@@ -47,6 +47,7 @@ void	draw_square(t_game *game, t_point position, float size, int color, bool fil
 	};
 }
 
+/* Draw the ray from origin to destination. */
 static void	draw_ray(t_game *game, t_point origin, t_point destination, int color)
 {
 	const float	dx = destination.x - origin.x;
@@ -68,25 +69,7 @@ static void	draw_ray(t_game *game, t_point origin, t_point destination, int colo
 	}
 }
 
-static float	normalize_angle(float angle)
-{
-	float	two_pi;
-
-	two_pi = degrees_to_radians(360);
-	if (angle < 0)
-	{
-		while (angle < 0)
-			angle += two_pi;
-	}
-	else
-	{
-		while (angle > two_pi)
-			angle -= two_pi;
-	}
-	return (angle);
-}
-
-void	draw_rays(t_game *game)
+void	draw_2D_FOV(t_game *game)
 {
 	float	ray_angle;
 	int		rays;
@@ -108,6 +91,7 @@ void	draw_rays(t_game *game)
 	}
 }
 
+/* Draws the player square and a line indicating the view direction. */
 void	draw_player(t_game *game, int color)
 {
 	t_point	destination;
@@ -120,25 +104,7 @@ void	draw_player(t_game *game, int color)
 	draw_ray(game, game->player.position, destination, GREEN);
 }
 
-/* Render the 2D field of view (raycasting visualization). */
-//void	draw_2D_FOV(t_game *game, int color)
-//{
-//	// Angle difference between each ray (60° field of view).
-//	const float	angle_step = degrees_to_radians(60) / WIDTH;
-//	float		ray_angle;
-//
-//	// Start from left edge of the FOV (player angle - 30°).
-//	ray_angle = game->player.angle - degrees_to_radians(30);
-//
-//	int column = 0;
-//	while (column < WIDTH)
-//	{
-//		draw_ray(game, ray_angle, color);
-//		ray_angle += angle_step;
-//		column++;
-//	}
-//}
-
+/* Draws the map in 2D vision. */
 void	draw_map(t_game *game, float block_size)
 {
 	int			column;
@@ -164,7 +130,7 @@ void	draw_map(t_game *game, float block_size)
 	}
 };
 
-void	draw_minimap(t_game *game)
-{
-	draw_map(game, BLOCK_SIZE / 4);
-};
+//void	draw_minimap(t_game *game)
+//{
+	//draw_map(game, BLOCK_SIZE / 4);
+//};

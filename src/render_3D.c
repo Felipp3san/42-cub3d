@@ -6,29 +6,24 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/30 12:53:19 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/05/31 15:37:17 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/06/04 22:59:59 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defs.h"
 #include "utils.h"
 #include "image.h"
-#include "calculation.h"
 #include "ray.h"
 
 /* Draw a single vertical wall slice (one screen column). */
-static void	draw_column(t_game *game, const float angle, int column)
+static void	draw_column(t_game *game, t_ray ray, int column, bool vertical)
 {
-	const t_point	ray_hit_point = trace_ray(game, angle);
-	double			distance;
-	double			wall_height;
-	double			wall_start;
-	double			wall_bottom;
-
-	distance = fixed_distance(game->player.position, game->player.angle, ray_hit_point);
+	float	wall_height;
+	float	wall_start;
+	float	wall_bottom;
 
 	// Project wall height based on distance.
-	wall_height = (BLOCK_SIZE / distance) * ((float) WIDTH / 2);
+	wall_height = ((float)BLOCK_SIZE / ray.dist) * ((float)WIDTH / 2);
 
 	// Center the wall slice vertically on screen.
 	wall_start = (HEIGHT - wall_height) / 2;
@@ -42,7 +37,12 @@ static void	draw_column(t_game *game, const float angle, int column)
 			my_mlx_pixel_put(game->img, column, start, BLUE_SKY);
 		// Draw walls.
 		else if (start >= wall_start && start < wall_bottom)
-			my_mlx_pixel_put(game->img, column, start, OFF_WHITE);
+		{
+			if (vertical)
+				my_mlx_pixel_put(game->img, column, start, WARM_OFF_WHITE);
+			else
+				my_mlx_pixel_put(game->img, column, start, DARKER_OFF_WHITE);
+		}
 		// Draw floor.
 		else
 			my_mlx_pixel_put(game->img, column, start, CLEAR_GRAY);
@@ -56,16 +56,21 @@ void	draw_3D_FOV(t_game *game)
 	// Angle difference between each screen column ray.
 	const float	angle_step = degrees_to_radians(60) / WIDTH;
 	float		ray_angle;
+	t_ray		h_ray;
+	t_ray		v_ray;
 	int			column;
 
-	// Start from left edge of FOV (player angle - 30 degrees).
-	ray_angle = game->player.angle - degrees_to_radians(30);
+	ray_angle = normalize_angle(game->player.angle - degrees_to_radians(30));
 	column = 0;
 	while (column < WIDTH)
 	{
-		draw_column(game, ray_angle, column);
-		ray_angle += angle_step;
+		h_ray = calculate_ray_distance_h(game, ray_angle);
+		v_ray = calculate_ray_distance_v(game, ray_angle);
+		if (v_ray.dist < h_ray.dist)
+			draw_column(game, v_ray, column, true);
+		else
+			draw_column(game, h_ray, column, false);
+		ray_angle = normalize_angle(ray_angle + angle_step);
 		column++;
 	}
 }
-

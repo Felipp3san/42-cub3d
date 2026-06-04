@@ -21,7 +21,6 @@
 // 2D
 void	draw_square(t_game *game, t_point position, float size, int color, bool filled);
 void	draw_player(t_game *game, int color);
-void	draw_rays(t_game *game);
 void	draw_map(t_game *game, float block_size);
 void	draw_2D_FOV(t_game *game, int color);
 

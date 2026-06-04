@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 21:50:12 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/06/04 19:58:15 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/06/04 22:55:58 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@
 # define YELLOW 0x00FFFF00
 # define CHARCOAL 0x001C1C1C
 # define MIDNIGHT_NAVY 0x00151922
-# define OFF_WHITE 0x00F5F7FA
+# define WARM_OFF_WHITE 0x00E8E6DF
+# define DARKER_OFF_WHITE 0x00D6D3CC
 # define ASH_WOOD 0x00E3DCD2
 # define BLUE_SKY 0x0090CAF9
 # define CLEAR_GRAY 0x007D7F7C
@@ -104,11 +105,12 @@ typedef struct s_map
 
 typedef struct s_ray
 {
-	t_point	hit;
-	float	x_offset;
-	float	y_offset;
-	float	dist;
-	float	step_ratio;
+	t_point		hit;
+	float		x_offset;
+	float		y_offset;
+	float		dist;
+	float		step_ratio;
+	t_orientation orientation;
 }	t_ray;
 
 typedef struct s_game
