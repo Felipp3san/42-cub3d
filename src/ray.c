@@ -6,22 +6,33 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/30 12:28:47 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/06/04 22:57:12 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/06/05 15:21:32 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include <float.h>
-#include <stdio.h>
 
 #include "defs.h"
 #include "utils.h"
 
-static float	distance(t_point a, t_point b)
-{
-	return (sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y)));
-};
+/* Calculates the distance between two points. */
+static float	distance2(float x, float y){
+	return sqrt(x * x + y * y);
+}
 
+/* Correction for distance calculation to avoid fish-eye effect. */
+static float	fixed_distance(t_point start, t_point end, float angle)
+{
+	const float	delta_x = end.x - start.x;
+	const float	delta_y = end.y - start.y;
+
+	const float	new_angle = atan2(delta_y, delta_x) - angle;
+	const float	fixed_dist = distance2(delta_x, delta_y) * cos(new_angle);
+	return (fixed_dist);
+}
+
+/* Steps ray until it hits a wall and calculates the distance from player to impact point. */
 static t_ray	step_ray(t_game *game, t_ray ray)
 {
 	const int	MAX_DOF = 24;
@@ -42,7 +53,7 @@ static t_ray	step_ray(t_game *game, t_ray ray)
 			map_x >= 0 && map_x < game->map.width &&
 			game->map.grid[map_y][map_x] == '1')
 		{
-			ray.dist = distance(game->player.position, ray.hit);
+			ray.dist = fixed_distance(game->player.position, ray.hit, game->player.angle);
 			return (ray);
 		}
 		ray.hit.x += ray.x_offset;
@@ -52,6 +63,8 @@ static t_ray	step_ray(t_game *game, t_ray ray)
 	return (ray);
 }
 
+/* Calculates closest ray impact point on horizontal grid lines,
+ * sets the step offset and steps the ray using these values. */
 t_ray calculate_ray_distance_h(t_game *game, float ray_angle)
 {
 	t_ray	ray;
@@ -60,13 +73,13 @@ t_ray calculate_ray_distance_h(t_game *game, float ray_angle)
 	ray.step_ratio = 1.0f / tanf(ray_angle);
 	if (ray_angle > degrees_to_radians(180))
 	{
-		ray.hit.y = (((int) game->player.position.y >> 6) << 6);
+		ray.hit.y = floorf(game->player.position.y / BLOCK_SIZE) * BLOCK_SIZE;
 		ray.y_offset = -BLOCK_SIZE;
 		ray.orientation = NORTH;
 	}
 	else if (ray_angle < degrees_to_radians(180))
 	{
-		ray.hit.y = (((int) game->player.position.y >> 6) << 6) + BLOCK_SIZE;
+		ray.hit.y = (floorf(game->player.position.y / BLOCK_SIZE) * BLOCK_SIZE) + BLOCK_SIZE;
 		ray.y_offset = BLOCK_SIZE;
 		ray.orientation = SOUTH;
 	}
@@ -77,6 +90,8 @@ t_ray calculate_ray_distance_h(t_game *game, float ray_angle)
 	return (step_ray(game, ray));
 }
 
+/* Calculates closest ray impact point on vertical grid lines,
+ * sets the step offset and steps the ray using these values. */
 t_ray	calculate_ray_distance_v(t_game *game, float ray_angle)
 {
 	t_ray	ray;
@@ -85,13 +100,13 @@ t_ray	calculate_ray_distance_v(t_game *game, float ray_angle)
 	ray.step_ratio = tanf(ray_angle);
 	if (ray_angle > degrees_to_radians(90) && ray_angle < degrees_to_radians(270))
 	{
-		ray.hit.x = (((int)game->player.position.x >> 6) << 6);
+		ray.hit.x = floorf(game->player.position.x / BLOCK_SIZE) * BLOCK_SIZE;
 		ray.x_offset = -BLOCK_SIZE;
 		ray.orientation = WEST;
 	}
 	else if (ray_angle < degrees_to_radians(90) || ray_angle > degrees_to_radians(270))
 	{
-		ray.hit.x = (((int)game->player.position.x >> 6) << 6) + BLOCK_SIZE;
+		ray.hit.x = (floorf(game->player.position.x / BLOCK_SIZE) * BLOCK_SIZE) + BLOCK_SIZE;
 		ray.x_offset = BLOCK_SIZE;
 		ray.orientation = EAST;
 	}

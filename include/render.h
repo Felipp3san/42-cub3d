@@ -19,12 +19,12 @@
 # include "defs.h"
 
 // 2D
-void	draw_square(t_game *game, t_point position, float size, int color, bool filled);
-void	draw_player(t_game *game, int color);
-void	draw_map(t_game *game, float block_size);
+void	draw_player(t_game *game, t_point position, int color);
+void	draw_map(t_game *game, float block_size, int start, bool filled);
 void	draw_2D_FOV(t_game *game, int color);
 
 // 3D
 void	draw_3D_FOV(t_game *game);
+void	draw_minimap(t_game *game);
 
 #endif

@@ -6,14 +6,17 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/30 12:53:19 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/06/04 22:59:59 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/06/05 16:19:23 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <math.h>
 
 #include "defs.h"
 #include "utils.h"
 #include "image.h"
 #include "ray.h"
+#include "render.h"
 
 /* Draw a single vertical wall slice (one screen column). */
 static void	draw_column(t_game *game, t_ray ray, int column, bool vertical)
@@ -74,3 +77,13 @@ void	draw_3D_FOV(t_game *game)
 		column++;
 	}
 }
+
+void	draw_minimap(t_game *game)
+{
+    int start;
+    float block_size;
+
+    block_size = floorf((float)BLOCK_SIZE / 4);
+    start = WIDTH - (int)(game->map.width * block_size);
+	draw_map(game, block_size, start, true);
+};

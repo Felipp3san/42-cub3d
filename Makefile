@@ -6,7 +6,7 @@
 #    By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/25 20:19:09 by fde-alme          #+#    #+#              #
-#    Updated: 2026/05/31 17:16:49 by fde-alme         ###   ########.fr        #
+#    Updated: 2026/06/05 15:47:21 by fde-alme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ MLX			= libmlx.a
 
 # Options
 CC			= cc
-CFLAGS		=  -Wno-cast-function-type -g
+CFLAGS		= -Wall -Wextra -Werror -Wno-cast-function-type -g
 
 # Folders
 INCLUDE_DIR = include

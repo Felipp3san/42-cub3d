@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render_2D.c                                             :+:      :+:    :+:   */
+/*   render_2D.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 17:17:33 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/05/30 12:32:47 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/06/05 16:19:41 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include "ray.h"
 
 /* Draw a hollow square centered at (centerX, centerY). */
-void	draw_square(t_game *game, t_point position, float size, int color, bool filled)
+static void	draw_square(t_game *game, t_point position, float size, int color, bool filled)
 {
 	int			row;
 	int			column;
@@ -47,7 +47,6 @@ void	draw_square(t_game *game, t_point position, float size, int color, bool fil
 	};
 }
 
-/* Draw the ray from origin to destination. */
 static void	draw_ray(t_game *game, t_point origin, t_point destination, int color)
 {
 	const float	dx = destination.x - origin.x;
@@ -92,20 +91,40 @@ void	draw_2D_FOV(t_game *game)
 }
 
 /* Draws the player square and a line indicating the view direction. */
-void	draw_player(t_game *game, int color)
+void	draw_player(t_game *game, t_point position, int color)
 {
-	t_point	destination;
+	//t_point	destination;
 
-	draw_square(game, game->player.position, PLAYER_SIZE, color, true);
+	draw_square(game, position, PLAYER_SIZE, color, true);
 
-	destination.x = game->player.position.x + cos(game->player.angle) * 10;
-	destination.y = game->player.position.y + sin(game->player.angle) * 10;
+	//destination.x = game->player.position.x + cos(game->player.angle) * 10;
+	//destination.y = game->player.position.y + sin(game->player.angle) * 10;
 
-	draw_ray(game, game->player.position, destination, GREEN);
+	//draw_ray(game, game->player.position, destination, GREEN);
+}
+
+
+static void draw_map_background(t_game *game, float block_size, int start)
+{
+    const int bottom = (int) floorf(game->map.height * block_size);
+    int row;
+    int column;
+
+    row = 0;
+    while (row < bottom)
+    {
+        column = start;
+        while (column < WIDTH)
+        {
+            my_mlx_pixel_put(game->img, column, row, BLACK);
+            column++;
+        }
+        row++;
+    }
 }
 
 /* Draws the map in 2D vision. */
-void	draw_map(t_game *game, float block_size)
+void	draw_map(t_game *game, float block_size, int start, bool filled)
 {
 	int			column;
 	int			row;
@@ -113,24 +132,20 @@ void	draw_map(t_game *game, float block_size)
 	const float	offset = (block_size / 2);
 
 	row = 0;
+    draw_map_background(game, block_size, start);
 	while (game->map.grid && game->map.grid[row] != NULL)
 	{
 		column = 0;
 		position.y = (row * block_size) + offset;
 		while (game->map.grid[row][column] != '\0')
 		{
-			position.x = (column * block_size) + offset;
+			position.x = (column * block_size + start) + offset;
 			if (game->map.grid[row][column] == '1')
-				draw_square(game, position, block_size - 1, RED, false);
+				draw_square(game, position, block_size - 1, BLACK, filled);
 			else
-				draw_square(game, position, block_size - 1, WHITE, false);
+				draw_square(game, position, block_size - 1, WHITE, filled);
 			column++;
 		}
 		row++;
 	}
 };
-
-//void	draw_minimap(t_game *game)
-//{
-	//draw_map(game, BLOCK_SIZE / 4);
-//};

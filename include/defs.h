@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 21:50:12 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/06/04 22:55:58 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/06/05 15:06:35 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 # define ARROW_LEFT 65361
 # define ARROW_RIGHT 65363
 
-# define SPEED 4
-# define ANGLE_SPEED 0.05
+# define SPEED 2.5
+# define ANGLE_SPEED 0.02
 
 # define BLACK 0x00000000
 # define WHITE 0x00FFFFFF
@@ -46,8 +46,8 @@
 # define BLUE_SKY 0x0090CAF9
 # define CLEAR_GRAY 0x007D7F7C
 
-# define BLOCK_SIZE 64
-# define PLAYER_SIZE 20
+# define BLOCK_SIZE 96
+# define PLAYER_SIZE 40
 
 typedef enum e_direction
 {
