@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 17:17:33 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/06/05 16:34:34 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/06/09 21:07:30 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	draw_player(t_game *game, t_point position, int color)
 {
 	t_point	destination;
 
+    (void) position;
 	draw_square(game, game->player.position, PLAYER_SIZE, color, true);
 
 	destination.x = game->player.position.x + cos(game->player.angle) * 10;

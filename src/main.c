@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:13:38 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/06/05 15:42:59 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/06/09 21:06:00 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	loop(void *param)
 
 	frame_counter++;
 	printf("Frame: %lu\n", frame_counter);
-	usleep(1);
+	usleep(100);
 	return (0);
 }
 
