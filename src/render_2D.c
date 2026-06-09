@@ -6,14 +6,13 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 17:17:33 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/06/05 16:19:41 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/06/05 16:34:34 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include <stdint.h>
 #include <unistd.h>
-#include <stdio.h>
 
 #include "defs.h"
 #include "image.h"
@@ -93,34 +92,34 @@ void	draw_2D_FOV(t_game *game)
 /* Draws the player square and a line indicating the view direction. */
 void	draw_player(t_game *game, t_point position, int color)
 {
-	//t_point	destination;
+	t_point	destination;
 
-	draw_square(game, position, PLAYER_SIZE, color, true);
+	draw_square(game, game->player.position, PLAYER_SIZE, color, true);
 
-	//destination.x = game->player.position.x + cos(game->player.angle) * 10;
-	//destination.y = game->player.position.y + sin(game->player.angle) * 10;
+	destination.x = game->player.position.x + cos(game->player.angle) * 10;
+	destination.y = game->player.position.y + sin(game->player.angle) * 10;
 
-	//draw_ray(game, game->player.position, destination, GREEN);
+	draw_ray(game, game->player.position, destination, GREEN);
 }
 
 
 static void draw_map_background(t_game *game, float block_size, int start)
 {
-    const int bottom = (int) floorf(game->map.height * block_size);
-    int row;
-    int column;
+	const int	bottom = (int) floorf(game->map.height * block_size);
+	int			row;
+	int 		column;
 
-    row = 0;
-    while (row < bottom)
-    {
-        column = start;
-        while (column < WIDTH)
-        {
-            my_mlx_pixel_put(game->img, column, row, BLACK);
-            column++;
-        }
-        row++;
-    }
+	row = 0;
+	while (row < bottom)
+	{
+		column = start;
+		while (column < WIDTH)
+		{
+			my_mlx_pixel_put(game->img, column, row, BLACK);
+			column++;
+		}
+		row++;
+	}
 }
 
 /* Draws the map in 2D vision. */
@@ -132,7 +131,7 @@ void	draw_map(t_game *game, float block_size, int start, bool filled)
 	const float	offset = (block_size / 2);
 
 	row = 0;
-    draw_map_background(game, block_size, start);
+	draw_map_background(game, block_size, start);
 	while (game->map.grid && game->map.grid[row] != NULL)
 	{
 		column = 0;

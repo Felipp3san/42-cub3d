@@ -6,7 +6,7 @@
 /*   By: fde-alme <fde-alme@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/30 12:53:19 by fde-alme          #+#    #+#             */
-/*   Updated: 2026/06/05 16:19:23 by fde-alme         ###   ########.fr       */
+/*   Updated: 2026/06/05 16:33:20 by fde-alme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ void	draw_3D_FOV(t_game *game)
 
 void	draw_minimap(t_game *game)
 {
-    int start;
-    float block_size;
+	int start;
+	float block_size;
 
-    block_size = floorf((float)BLOCK_SIZE / 4);
-    start = WIDTH - (int)(game->map.width * block_size);
+	block_size = floorf((float)BLOCK_SIZE / 4);
+	start = WIDTH - (int)(game->map.width * block_size);
 	draw_map(game, block_size, start, true);
 };
